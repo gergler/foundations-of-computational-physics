@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.animation as animation
 
 # x-y-t grid
-nx, ny, t_max = 50, 50, 1
+nx, ny, t_max = 50, 50, 2
 x_min, x_max, y_min, y_max = 0, 3, 0, 3
 x, y = np.linspace(x_min, x_max, nx), np.linspace(y_min, y_max, ny)
 dx, dy = (x_max - x_min) / nx, (y_max - y_min) / ny
@@ -66,12 +66,12 @@ ax.plot_surface(X, Y, z[0], cmap="plasma", rstride=1, cstride=1)
 
 
 def change_plot(i):
-   ax.collections.clear()
-   time_text.set_text(f't = {round(i * dt, 4)}')
-   ax.plot_surface(X, Y, z[i], cmap="plasma", rstride=1, cstride=1)
-   return fig, time_text,
+    if i <= nt:
+        ax.collections.clear()
+        time_text.set_text(f't = {round(i * dt, 4)}')
+        ax.plot_surface(X, Y, z[i], cmap="plasma", rstride=1, cstride=1)
+        return fig, time_text,
 
 
-ani = animation.FuncAnimation(fig, change_plot, nt, interval=0, blit=False)
+ani = animation.FuncAnimation(fig, change_plot, interval=20, blit=False)
 plt.show()
-
